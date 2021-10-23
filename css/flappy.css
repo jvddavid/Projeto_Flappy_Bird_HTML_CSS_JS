@@ -3,7 +3,7 @@ Author: João Victor David de Oliveira (j.victordavid2@gmail.com)
 flappy.css (c) 2021
 Desc: CSS file for project flappy
 Created:  2021-10-23T03:30:48.367Z
-Modified: 2021-10-23T03:57:32.844Z
+Modified: 2021-10-23T14:08:21.178Z
 */
 
 * {
@@ -86,5 +86,6 @@ body {
     right: 10px;
     font-family: 'Pixel';
     font-size: 70px;
+    z-index: 100;
 }
 
