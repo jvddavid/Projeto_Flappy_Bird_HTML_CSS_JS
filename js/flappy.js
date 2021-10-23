@@ -3,7 +3,7 @@ Author: João Victor David de Oliveira (j.victordavid2@gmail.com)
 flappy.js (c) 2021
 Desc: JS file for project flappy
 Created:  2021-10-23T03:31:17.453Z
-Modified: 2021-10-23T14:51:07.208Z
+Modified: 2021-10-23T15:07:11.757Z
 */
 
 // Função para gerar um elemento
@@ -158,6 +158,27 @@ class CriarProgresso {
 //     passaro.animar()
 // }, 20)
 
+function EstaoSobrepostos(elementoA, elementoB) {
+    const a = elementoA.getBoundingClientRect()
+    const b = elementoB.getBoundingClientRect()
+
+    const horizontal = a.left + a.width >= b.left && b.left + b.width >= a.left
+    const vertical = a.top + a.height >= b.top && b.top + b.height >= a.top
+    return horizontal && vertical
+}
+
+function Colidiu(passaro, barreiras) {
+    let colidiu = false
+    barreiras.pares.forEach(parDeBarreiras => {
+        if (!colidiu) {
+            const superior = parDeBarreiras.superior.elemento
+            const inferior = parDeBarreiras.inferior.elemento
+            colidiu = EstaoSobrepostos(passaro.elemento, superior) || EstaoSobrepostos(passaro.elemento, inferior)
+        }
+    })
+    return colidiu
+}
+
 class FlappyBird {
     constructor() {
         let pontos = 0
@@ -180,8 +201,10 @@ class FlappyBird {
             const temporizador = setInterval(() => {
                 barreiras.animar()
                 passaro.animar()
+                if (Colidiu(passaro, barreiras)) {
+                    clearInterval(temporizador)
+                }
             }, 20)
-            
         }
     }
 }
